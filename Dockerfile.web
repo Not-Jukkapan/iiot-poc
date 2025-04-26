@@ -1,0 +1,25 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# ก๊อป root config
+COPY package.json yarn.lock ./
+
+# ก๊อป packages ทั้งหมดเข้าไป
+COPY packages ./packages
+
+# ก๊อปเฉพาะ web package.json
+COPY apps/web/package.json apps/web/
+
+# ติดตั้ง dependencies รวม (เพราะมันต้องเห็น workspace ทั้ง repo)
+RUN yarn install
+
+# ก๊อปโค้ด web เข้าไป
+COPY apps/web ./apps/web
+
+# Build Next.js
+RUN yarn workspace web build
+
+WORKDIR /app/apps/web
+
+CMD ["yarn", "start", "-p", "4000"]

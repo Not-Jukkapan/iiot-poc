@@ -1,0 +1,16 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package.json yarn.lock ./
+COPY apps/backend/package.json apps/backend/
+
+RUN yarn install
+
+COPY apps/backend ./apps/backend
+
+RUN yarn workspace backend build
+
+WORKDIR /app/apps/backend
+
+CMD ["yarn", "start"]

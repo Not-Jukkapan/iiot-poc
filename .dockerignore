@@ -1,0 +1,12 @@
+node_modules
+.git
+.gitignore
+logs
+infra
+dist
+.next
+Dockerfile*
+docker-compose.yml
+README.md
+.yarn
+.cache
